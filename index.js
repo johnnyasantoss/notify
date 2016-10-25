@@ -3,21 +3,21 @@
     global.notify = {
         requestPermission: requestPermission(),
         sendNotification: sendNotification(),
-        getStatus: getStatus(),
-        addStatusChangedEvent: addStatusChangedEvent,
-        removeStatusChangedEvent: removeStatusChangedEvent
+        getPermission: getPermission(),
+        addPermissionChangedEvent: addPermissionChangedEvent,
+        removePermissionChangedEvent: removePermissionChangedEvent
     };
 
     var $$sts = null;
 
-    function removeStatusChangedEvent(evtListener) {
+    function removePermissionChangedEvent(evtListener) {
         if (!evtListener || typeof evtListener !== "function")
             throw new TypeError("Falha: parâmetros incorretos.");
         if ($$sts)
-            return $$sts.removeEventListener("change", evtListener);
+            $$sts.removeEventListener("change", evtListener);
     }
 
-    function addStatusChangedEvent(evtListener) {
+    function addPermissionChangedEvent(evtListener) {
         if (!evtListener || typeof evtListener !== "function")
             throw new TypeError("Falha: parâmetros incorretos.");
 
@@ -35,27 +35,23 @@
             return global.Notification.requestPermission;
         } else if ("mozNotification" in navigator || "webkitNotifications" in navigator) {
             return function () {
-                return Promise.resolve(true);
+                return Promise.resolve("granted");
             };
         }
         else
             return function () {
-                return false;
+                return notSupported();
             };
     }
 
-    function getStatus() {
-        if ("permissions" in navigator) {
+    function getPermission() {
+        if ("Notification" in global) {
+            return Promise.resolve(Notification.permission);
+        } else if ("permissions" in navigator) {
             return function () {
                 return navigator.permissions.query({ name: "notifications" });
             };
-        } else {
-            return function () {
-                var t = new Error("Não suportado.");
-                t.code = "NOT_SUPPORTED";
-                throw t;
-            };
-        }
+        } else return notSupported();
     }
 
     /**
@@ -87,5 +83,13 @@
                 return false;
             };
         }
+    }
+
+    function notSupported() {
+        return new Promise(function () {
+            var t = new Error("Não suportado.");
+            t.code = "NOT_SUPPORTED";
+            throw t;
+        });
     }
 })(window, navigator);
