@@ -1,0 +1,23 @@
+{
+  "name": "notify",
+  "homepage": "https://github.com/johnnyasantoss/notify",
+  "authors": [
+    "Johnny Santos <johnny_santos@hotmail.com.br>"
+  ],
+  "description": "Just a simple wrapper for Notifications API",
+  "main": "index.js",
+  "keywords": [
+    "notification",
+    "notify",
+    "push"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    ".vscode"
+  ]
+}
