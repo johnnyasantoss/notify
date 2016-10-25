@@ -1,6 +1,6 @@
 {
   "name": "notify-wrapper",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Just a simple wrapper for Notifications API",
   "main": "index.js",
   "scripts": {

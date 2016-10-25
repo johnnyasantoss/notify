@@ -21,7 +21,7 @@
         if (!evtListener || typeof evtListener !== "function")
             throw new TypeError("Falha: parâmetros incorretos.");
 
-        global.notify.getStatus().then(function (status) {
+        _getPermission().then(function (status) {
             ($$sts = status).addEventListener("change", evtListener);
         });
     }
@@ -48,10 +48,12 @@
         if ("Notification" in global) {
             return function () { return Promise.resolve(Notification.permission); };
         } else if ("permissions" in navigator) {
-            return function () {
-                return navigator.permissions.query({ name: "notifications" });
-            };
+            return function () { return _getPermission(); };
         } else return notSupported();
+    }
+
+    function _getPermission() {
+        return navigator.permissions.query({ name: "notifications" });
     }
 
     /**
