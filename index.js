@@ -46,7 +46,7 @@
 
     function getPermission() {
         if ("Notification" in global) {
-            return Promise.resolve(Notification.permission);
+            return function () { return Promise.resolve(Notification.permission); };
         } else if ("permissions" in navigator) {
             return function () {
                 return navigator.permissions.query({ name: "notifications" });
