@@ -3,8 +3,8 @@ Just a simple wrapper for Notifications API
 
 # Install
 
-* using bower `bower install notifty`
-* using npm `npm install notifty` 
+* using bower `bower install notify-wrapper`
+* using npm `npm install notify-wrapper` 
 
 # API
 
