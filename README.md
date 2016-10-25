@@ -1,4 +1,4 @@
-# Notify
+# Notify-wrapper
 Just a simple wrapper for Notifications API
 
 # Install
