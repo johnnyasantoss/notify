@@ -1,27 +1,27 @@
 /* global Promise: false */
-(function () {
-    window.notify = {
+(function (global, navigator) {
+    global.notify = {
         requestPermission: requestPermission(),
         sendNotification: sendNotification(),
         getStatus: getStatus(),
-        addEventoTrocaStatus: addEventoTrocaStatus,
-        removerEvento: removerEvento
+        addStatusChangedEvent: addStatusChangedEvent,
+        removeStatusChangedEvent: removeStatusChangedEvent
     };
 
     var $$sts = null;
 
-    function removerEvento(evtListener) {
+    function removeStatusChangedEvent(evtListener) {
         if (!evtListener || typeof evtListener !== "function")
             throw new TypeError("Falha: parâmetros incorretos.");
         if ($$sts)
             return $$sts.removeEventListener("change", evtListener);
     }
 
-    function addEventoTrocaStatus(evtListener) {
+    function addStatusChangedEvent(evtListener) {
         if (!evtListener || typeof evtListener !== "function")
             throw new TypeError("Falha: parâmetros incorretos.");
 
-        window.notify.getStatus().then(function (status) {
+        global.notify.getStatus().then(function (status) {
             ($$sts = status).addEventListener("change", evtListener);
         });
     }
@@ -31,8 +31,8 @@
      * @returns {Function}
      */
     function requestPermission() {
-        if ("Notification" in window) {
-            return window.Notification.requestPermission;
+        if ("Notification" in global) {
+            return global.Notification.requestPermission;
         } else if ("mozNotification" in navigator || "webkitNotifications" in navigator) {
             return function () {
                 return Promise.resolve(true);
@@ -63,7 +63,7 @@
      * @returns {Function}
      */
     function sendNotification() {
-        if ("Notification" in window) {
+        if ("Notification" in global) {
             return function (title, options) {
                 return new Notification(title, options);
             };
@@ -88,4 +88,4 @@
             };
         }
     }
-})();
+})(window, navigator);
