@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/johnnyasantoss/notify#readme",
   "devDependencies": {
-    "eslint": "^3.8.1"
+    "eslint": ">=4.18.2"
   }
 }
